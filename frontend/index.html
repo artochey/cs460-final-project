@@ -3509,29 +3509,24 @@ function loadSavedTestResults() {
 
 window.onload = loadProducts;
 // รายชื่อตีมทั้งหมด (ว่างๆ คือตีมเริ่มต้น)
-  const themeList = ['', 'theme-red', 'theme-green', 'theme-light'];
+  const themeList = ['', 'theme-red', 'theme-green'];
   let currentThemeIdx = 0;
 
   function toggleTheme() {
-    // ลบตีมเก่าออกก่อน
     if (themeList[currentThemeIdx] !== '') {
       document.body.classList.remove(themeList[currentThemeIdx]);
     }
     
-    // ขยับไปตีมถัดไป ถ้าสุดแล้วให้วนกลับมา 0
     currentThemeIdx = (currentThemeIdx + 1) % themeList.length;
     
-    // ใส่ตีมใหม่
     if (themeList[currentThemeIdx] !== '') {
       document.body.classList.add(themeList[currentThemeIdx]);
     }
 
-    // เปลี่ยนไอคอนให้เข้ากับตีม
     const btn = document.getElementById('themeBtn');
     if (currentThemeIdx === 0) btn.innerHTML = '🎨'; // Default
     else if (currentThemeIdx === 1) btn.innerHTML = '🔥'; // Red
     else if (currentThemeIdx === 2) btn.innerHTML = '🌿'; // Green
-    else btn.innerHTML = '☀️'; // Light
   }
 </script>
 
