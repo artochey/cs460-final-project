@@ -1293,6 +1293,69 @@
   }
   .history-sum-item { flex:1; font-size:12px; color:rgba(255,255,255,0.5); display:flex; flex-direction:column; gap:3px; }
   .history-sum-item span:last-child { font-size:15px; font-weight:700; color:#f5f5f7; }
+  .theme-toggle-btn {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    z-index: 100;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .theme-toggle-btn:hover {
+    transform: scale(1.1) rotate(15deg);
+    background: rgba(255,255,255,0.15);
+  }
+
+  /* 🔴 THEME: RED (ดำ-แดง) */
+  body.theme-red { background: #1a0505; }
+  body.theme-red .orb1 { background: #ef4444; }
+  body.theme-red .orb2 { background: #b91c1c; }
+  body.theme-red .orb3 { background: #f59e0b; }
+  body.theme-red .btn-primary, body.theme-red .chat-fab { background: linear-gradient(135deg, #ef4444, #b91c1c); }
+  body.theme-red .nav-icon { background: linear-gradient(135deg, #ef4444, #f59e0b); }
+
+  /* 🟢 THEME: GREEN (ดำ-เขียว) */
+  body.theme-green { background: #051a0a; }
+  body.theme-green .orb1 { background: #10b981; }
+  body.theme-green .orb2 { background: #047857; }
+  body.theme-green .orb3 { background: #3b82f6; }
+  body.theme-green .btn-primary, body.theme-green .chat-fab { background: linear-gradient(135deg, #10b981, #047857); }
+  body.theme-green .nav-icon { background: linear-gradient(135deg, #10b981, #3b82f6); }
+
+  /* ⚪ THEME: LIGHT (ขาว-สว่าง) */
+  body.theme-light { background: #f8fafc; color: #0f172a; }
+  body.theme-light .orb1 { background: #93c5fd; }
+  body.theme-light .orb2 { background: #c4b5fd; }
+  body.theme-light .orb3 { background: #6ee7b7; }
+  
+  /* ปรับการ์ดและกระจกให้เข้ากับตีมสว่าง */
+  body.theme-light .card, body.theme-light .stat-card, body.theme-light .nav, 
+  body.theme-light .search-bar, body.theme-light .dock, body.theme-light .modal-content, 
+  body.theme-light .chat-panel {
+    background: rgba(255, 255, 255, 0.7);
+    border-color: rgba(0, 0, 0, 0.1);
+    color: #0f172a;
+  }
+  body.theme-light .hero p, body.theme-light .stat-lbl, body.theme-light .nav-sub, 
+  body.theme-light .card-footer { color: #64748b; }
+  body.theme-light .search-bar input, body.theme-light .form-input, body.theme-light .chat-input { color: #0f172a; }
+  body.theme-light .form-input, body.theme-light .chat-input { background: rgba(0,0,0,0.05); border-color: rgba(0,0,0,0.1); }
+  body.theme-light .chip { background: rgba(0,0,0,0.05); color: #475569; border-color: rgba(0,0,0,0.1); }
+  body.theme-light .theme-toggle-btn { color: #0f172a; border-color: rgba(0,0,0,0.2); }
+  body.theme-light .btn-action { color: #0f172a; border-color: rgba(0,0,0,0.2); }
+  body.theme-light .card-price { color: #0f172a; }
 </style>
 </head>
 <body>
@@ -1781,6 +1844,7 @@
 
 <!-- CHAT FAB -->
 <button class="chat-fab" id="chatFab" onclick="toggleChat()" title="Ask AI Assistant">💬</button>
+<button class="theme-toggle-btn" onclick="toggleTheme()" id="themeBtn" title="เปลี่ยนตีม">🎨</button>
 
 <!-- CHAT PANEL -->
 <div class="chat-panel" id="chatPanel">
@@ -3444,6 +3508,31 @@ function loadSavedTestResults() {
 }
 
 window.onload = loadProducts;
+// รายชื่อตีมทั้งหมด (ว่างๆ คือตีมเริ่มต้น)
+  const themeList = ['', 'theme-red', 'theme-green', 'theme-light'];
+  let currentThemeIdx = 0;
+
+  function toggleTheme() {
+    // ลบตีมเก่าออกก่อน
+    if (themeList[currentThemeIdx] !== '') {
+      document.body.classList.remove(themeList[currentThemeIdx]);
+    }
+    
+    // ขยับไปตีมถัดไป ถ้าสุดแล้วให้วนกลับมา 0
+    currentThemeIdx = (currentThemeIdx + 1) % themeList.length;
+    
+    // ใส่ตีมใหม่
+    if (themeList[currentThemeIdx] !== '') {
+      document.body.classList.add(themeList[currentThemeIdx]);
+    }
+
+    // เปลี่ยนไอคอนให้เข้ากับตีม
+    const btn = document.getElementById('themeBtn');
+    if (currentThemeIdx === 0) btn.innerHTML = '🎨'; // Default
+    else if (currentThemeIdx === 1) btn.innerHTML = '🔥'; // Red
+    else if (currentThemeIdx === 2) btn.innerHTML = '🌿'; // Green
+    else btn.innerHTML = '☀️'; // Light
+  }
 </script>
 
 <!-- FLOATING TEST HUD -->
